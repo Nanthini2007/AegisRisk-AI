@@ -1,0 +1,26 @@
+
+# Virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated data - reproducible from src/data + config, not committed
+data/raw/*.csv
+data/heldout/*.csv
+!data/raw/.gitkeep
+!data/heldout/.gitkeep
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE settings
+.vscode/
+.idea/
+
+# Environment variables / secrets
+.env
