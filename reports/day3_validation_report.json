@@ -1,0 +1,263 @@
+{
+  "project": "AegisRisk AI",
+  "stage": "Day 3 - Dataset Validation and EDA",
+  "synthetic_data_notice": "This dataset is synthetic and must not be represented as real Razorpay production data.",
+  "dataset_size": {
+    "rows": 300000,
+    "columns": 12
+  },
+  "schema_results": {
+    "row_count": 300000,
+    "column_count": 12,
+    "missing_required_columns": [],
+    "unexpected_columns": [],
+    "duplicate_transaction_ids": 0,
+    "passed": true
+  },
+  "data_quality": {
+    "missing_values": {},
+    "duplicate_rows": 0,
+    "invalid_amounts": 0,
+    "invalid_fraud_labels": 0,
+    "invalid_account_age": 0,
+    "invalid_failed_attempts": 0,
+    "invalid_is_new_device": 0,
+    "invalid_timestamps": 0,
+    "passed": true
+  },
+  "amount_statistics": {
+    "mean": 1717.2256328666667,
+    "median": 1216.02,
+    "p25": 714.97,
+    "p50": 1216.02,
+    "p75": 2088.8125,
+    "p95": 4636.775999999999,
+    "p99": 8507.003600000013,
+    "minimum": 28.99,
+    "maximum": 123415.79
+  },
+  "distribution_statistics": {
+    "amount": {
+      "mean": 1717.2256328666667,
+      "median": 1216.02,
+      "p25": 714.97,
+      "p50": 1216.02,
+      "p75": 2088.8125,
+      "p95": 4636.775999999999,
+      "p99": 8507.003600000013,
+      "minimum": 28.99,
+      "maximum": 123415.79
+    },
+    "payment_methods": {
+      "counts": {
+        "upi": 135195,
+        "card": 104904,
+        "netbanking": 29958,
+        "wallet": 29943
+      },
+      "percentages": {
+        "upi": 45.065,
+        "card": 34.967999999999996,
+        "netbanking": 9.986,
+        "wallet": 9.981
+      }
+    },
+    "devices": {
+      "unique_devices": 10115,
+      "transactions_per_device_median": 25.0,
+      "transactions_per_device_p95": 64.0,
+      "transactions_per_device_max": 89
+    },
+    "failed_attempts": {
+      "median": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "maximum": 9
+    },
+    "account_age_days": {
+      "median": 361.0,
+      "p25": 180.0,
+      "p75": 549.0,
+      "p95": 696.0,
+      "maximum": 730
+    }
+  },
+  "fraud_statistics": {
+    "legitimate_count": 290675,
+    "fraud_count": 9325,
+    "fraud_rate": 0.031083333333333334,
+    "accuracy_warning": "Accuracy should not be the primary metric for imbalanced fraud detection because a model can achieve high accuracy by mostly predicting the majority legitimate class while missing fraud."
+  },
+  "scenario_statistics": {
+    "scenario_statistics": {
+      "AMOUNT_ANOMALY": {
+        "count": 1240,
+        "percentage": 0.41333333333333333,
+        "fraud_rate": 0.6935483870967742,
+        "amount_median": 7655.505,
+        "amount_p95": 32769.95649999999
+      },
+      "BEHAVIOUR_SHIFT": {
+        "count": 922,
+        "percentage": 0.30733333333333335,
+        "fraud_rate": 0.482646420824295,
+        "amount_median": 5148.13,
+        "amount_p95": 19603.12
+      },
+      "COORDINATED_ATTACK": {
+        "count": 588,
+        "percentage": 0.196,
+        "fraud_rate": 0.8537414965986394,
+        "amount_median": 1151.155,
+        "amount_p95": 3982.320499999999
+      },
+      "NEW_DEVICE": {
+        "count": 1524,
+        "percentage": 0.508,
+        "fraud_rate": 0.6220472440944882,
+        "amount_median": 1244.87,
+        "amount_p95": 4808.751999999999
+      },
+      "NORMAL": {
+        "count": 294837,
+        "percentage": 98.27900000000001,
+        "fraud_rate": 0.019861821955860358,
+        "amount_median": 1207.76,
+        "amount_p95": 4483.02
+      },
+      "VELOCITY_BURST": {
+        "count": 889,
+        "percentage": 0.29633333333333334,
+        "fraud_rate": 0.8031496062992126,
+        "amount_median": 1206.24,
+        "amount_p95": 4432.591999999996
+      }
+    },
+    "feature_policy": "scenario_id is simulation metadata and must not be used as an ML prediction feature."
+  },
+  "customer_statistics": {
+    "unique_customers": 5000,
+    "transactions_per_customer": {
+      "mean": 60.0,
+      "median": 60.0,
+      "p95": 73.0,
+      "maximum": 91
+    },
+    "median_amount_per_customer": {
+      "overall_median": 1205.935,
+      "p95": 3613.6362500000005
+    },
+    "activity_concentration": {
+      "top_10_customers_transaction_share": 0.0028766666666666667,
+      "most_active_customer_share": 0.00030333333333333335
+    }
+  },
+  "merchant_statistics": {
+    "unique_merchants": 100,
+    "transactions_per_merchant": {
+      "mean": 3000.0,
+      "median": 2996.0,
+      "p95": 3080.05,
+      "maximum": 3107
+    }
+  },
+  "temporal_statistics": {
+    "invalid_timestamps": 0,
+    "chronologically_sorted": true,
+    "date_range": {
+      "start": "2026-01-01 06:00:14",
+      "end": "2026-01-30 23:59:44"
+    },
+    "number_of_days": 30,
+    "temporal_gaps": [],
+    "daily_volume": {
+      "minimum": 9766,
+      "median": 9988.0,
+      "maximum": 10216
+    },
+    "daily_fraud_count": {
+      "minimum": 270,
+      "maximum": 353
+    },
+    "daily_fraud_rate": {
+      "minimum": 0.027249306381292113,
+      "median": 0.03121577000762745,
+      "maximum": 0.03614581200081917
+    },
+    "hourly_volume": {
+      "6": 4294,
+      "7": 8330,
+      "8": 12220,
+      "9": 16389,
+      "10": 20358,
+      "11": 19609,
+      "12": 19927,
+      "13": 19479,
+      "14": 19191,
+      "15": 19294,
+      "16": 19610,
+      "17": 19789,
+      "18": 20876,
+      "19": 20558,
+      "20": 20374,
+      "21": 15930,
+      "22": 12167,
+      "23": 11605
+    },
+    "hourly_fraud_rate": {
+      "6": 0.028178854215183978,
+      "7": 0.03145258103241297,
+      "8": 0.030196399345335516,
+      "9": 0.03038623466959546,
+      "10": 0.029914529914529916,
+      "11": 0.03238308939772554,
+      "12": 0.03046118331911477,
+      "13": 0.031161763950921507,
+      "14": 0.03058725444218644,
+      "15": 0.030631284337099617,
+      "16": 0.03125956144824069,
+      "17": 0.028248016574864823,
+      "18": 0.03286070128377084,
+      "19": 0.033466290495184355,
+      "20": 0.02964562677922843,
+      "21": 0.032077840552416824,
+      "22": 0.032547053505383415,
+      "23": 0.03291684618698837
+    },
+    "passed": true
+  },
+  "leakage_audit": {
+    "ground_truth": [
+      "fraud_label"
+    ],
+    "simulation_metadata": [
+      "scenario_id"
+    ],
+    "excluded_from_ml_features": {
+      "fraud_label": "Ground truth target. Using it as a feature would directly leak the answer.",
+      "scenario_id": "Simulation metadata describing how synthetic data was generated. It is not an observable transaction feature for prediction."
+    },
+    "identifier_temporal_warnings": {
+      "customer_id": "Do not use as a raw predictive shortcut. It may be used to build historical features using only past or current information.",
+      "merchant_id": "Do not use future merchant outcomes when constructing historical features.",
+      "device_id": "Do not use future device activity when constructing historical features."
+    },
+    "future_information_rule": "For a transaction at timestamp t, every ML feature must be computed using only information available at or before timestamp t. Historical aggregates must never use transactions occurring after t.",
+    "passed": true
+  },
+  "warnings": [
+    "One simulation scenario represents more than 80% of transactions, indicating concentration."
+  ],
+  "findings": {
+    "PASS": [
+      "Dataset contains transactions and is non-empty.",
+      "Transaction amounts show non-trivial variation.",
+      "Customers have repeated transaction history."
+    ],
+    "WARNING": [
+      "One simulation scenario represents more than 80% of transactions, indicating concentration."
+    ],
+    "REVISE": []
+  },
+  "final_recommendation": "PASS"
+}

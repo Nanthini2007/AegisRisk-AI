@@ -1,99 +1,155 @@
-# AegisRisk AI - Simulation Configuration
+# AegisRisk AI - Day 2 Simulation Configuration
 #
 # Parameter labels:
 # - calibrated: supported by verified public evidence
-# - assumed: design assumption used when reliable evidence is unavailable
+# - assumed: prototype design assumption
 # - derived: calculated from other configured parameters
 #
 # IMPORTANT:
-# Any parameter without a verified source must NOT be presented
-# as a real-world fraud statistic.
+# This configuration generates SYNTHETIC data.
+# It must never be represented as real Razorpay production data.
 
 simulation:
   project_name: "AegisRisk AI"
+  configuration_version: "0.2.0"
+  project_phase: "Day 2 - Reproducible Temporal Behavioural Simulator"
 
   seed:
     value: 42
     parameter_type: assumed
-    rationale: "Fixed seed selected for reproducible simulation."
+    rationale: "Fixed seed selected to make the synthetic simulation reproducible."
     source: null
 
 population:
   merchants:
-    value: null
+    value: 100
     parameter_type: assumed
-    rationale: "Population size will be selected during simulator design."
-    source: "TODO: source required"
+    rationale: "Prototype merchant population selected to provide sufficient merchant diversity."
+    source: null
 
   customers:
-    value: null
+    value: 5000
     parameter_type: assumed
-    rationale: "Customer population size will be selected relative to the simulation design."
-    source: "TODO: source required"
+    rationale: "Prototype customer population selected for a manageable multi-customer temporal simulation."
+    source: null
+
+  devices_per_customer:
+    min:
+      value: 1
+      parameter_type: assumed
+      rationale: "Minimum number of known devices assigned to a synthetic customer."
+      source: null
+
+    max:
+      value: 3
+      parameter_type: assumed
+      rationale: "Maximum number of known devices assigned to a synthetic customer."
+      source: null
 
 temporal_period:
   start_date:
-    value: null
+    value: "2026-01-01"
     parameter_type: assumed
-    rationale: "To be defined before simulation generation."
+    rationale: "Synthetic simulation start date selected for a multi-day temporal experiment."
+    source: null
+
+  duration_days:
+    value: 30
+    parameter_type: assumed
+    rationale: "Thirty-day period provides sufficient history for temporal behavioural analysis."
+    source: null
 
   end_date:
     value: null
-    parameter_type: assumed
-    rationale: "To be defined before simulation generation."
-
-  duration_days:
-    value: null
     parameter_type: derived
-    derivation: "end_date - start_date"
+    derivation: "start_date + duration_days"
 
 transaction_behaviour:
   transaction_volume:
-    value: null
-    parameter_type: assumed
-    rationale: "To be calibrated or explicitly justified before dataset generation."
-    source: "TODO: source required"
+    expected_transactions_per_day:
+      value: 10000
+      parameter_type: assumed
+      rationale: "Prototype transaction volume selected to provide sufficient event density for temporal experiments."
+      source: null
 
   transaction_timing:
-    value: null
-    parameter_type: assumed
-    rationale: "Temporal transaction patterns will be defined before implementation."
-    source: "TODO: source required"
+    activity_distribution:
+      value: "customer_preference_weighted"
+      parameter_type: assumed
+      rationale: "Transactions are generated with customer-specific preferred activity times rather than uniformly random timing."
+      source: null
+
+    peak_hours:
+      value: [9, 10, 11, 18, 19, 20, 21]
+      parameter_type: assumed
+      rationale: "Prototype activity windows used to create realistic temporal variation."
+      source: null
 
   transaction_amount:
-    value: null
-    parameter_type: assumed
-    rationale: "Amount distribution will require explicit design justification."
-    source: "TODO: source required"
+    distribution:
+      value: "customer_baseline_lognormal"
+      parameter_type: assumed
+      rationale: "Log-normal variation around a customer-specific baseline creates heterogeneous transaction amounts."
+      source: null
+
+    min_amount:
+      value: 10.0
+      parameter_type: assumed
+      rationale: "Synthetic minimum transaction amount."
+      source: null
+
+    max_amount:
+      value: 100000.0
+      parameter_type: assumed
+      rationale: "Synthetic maximum transaction amount used to constrain extreme generated values."
+      source: null
 
 fraud_behaviour:
-  fraud_prevalence:
-    value: null
+  base_probability:
+    value: 0.02
     parameter_type: assumed
-    rationale: "Must not be treated as a real-world statistic without verified evidence."
-    source: "TODO: source required"
-
-  fraud_scenarios:
-    value: []
-    parameter_type: assumed
-    rationale: "Specific transaction-fraud scenarios will be defined in a later phase."
-    source: "TODO: source required"
+    rationale: "Prototype baseline fraud probability selected for simulation experiments; it is not a real-world fraud statistic."
+    source: null
 
 scenario_configuration:
-  enabled_scenarios:
-    value: []
-    parameter_type: assumed
+  scenarios:
 
-  scenario_spikes:
-    value: []
-    parameter_type: assumed
-    rationale: "Temporal fraud spikes will be configured before simulation generation."
+    velocity_burst:
+      enabled: true
+      probability: 0.003
+      parameter_type: assumed
+      rationale: "Small proportion of transactions are assigned to concentrated velocity-burst simulations."
+      source: null
+
+    amount_anomaly:
+      enabled: true
+      probability: 0.004
+      parameter_type: assumed
+      rationale: "Small proportion of transactions receive simulated abnormal transaction amounts."
+      source: null
+
+    new_device:
+      enabled: true
+      probability: 0.005
+      parameter_type: assumed
+      rationale: "Small proportion of transactions simulate activity from an unfamiliar device."
+      source: null
+
+    coordinated_attack:
+      enabled: true
+      probability: 0.002
+      parameter_type: assumed
+      rationale: "Small proportion of transactions simulate coordinated suspicious activity with increased failed attempts."
+      source: null
+
+    behaviour_shift:
+      enabled: true
+      probability: 0.003
+      parameter_type: assumed
+      rationale: "Small proportion of transactions simulate abrupt deviations from customer behavioural baselines."
+      source: null
 
 reproducibility_metadata:
-  configuration_version: "0.1.0"
-  project_phase: "Day 1 Foundation"
-  dataset_generated: false
-
   leakage_prevention:
     rule: >
       For a transaction at time T, predictive features must use only
@@ -101,6 +157,21 @@ reproducibility_metadata:
       future labels, post-transaction outcomes, and future aggregates
       must never be used to construct current-time prediction features.
 
+  scenario_metadata_warning: >
+    scenario_id is simulation metadata and represents the ground-truth
+    scenario used to generate synthetic events. It must not be used as
+    an ML feature because it can create target leakage.
+
+  fraud_label_warning: >
+    fraud_label represents synthetic ground truth generated by the simulator.
+    It may be used for supervised training and evaluation after appropriate
+    temporal splitting, but future fraud labels must never be available when
+    predicting a current transaction.
+
   synthetic_data_notice: >
-    The future transaction dataset will be synthetic and must never be
-    described as real Razorpay production data.
+    All generated transactions, customer identifiers, merchant identifiers,
+    device identifiers, behavioural properties, and fraud labels are synthetic.
+    They must never be described as real Razorpay production data.
+
+output:
+  path: "data/raw/transactions.csv"

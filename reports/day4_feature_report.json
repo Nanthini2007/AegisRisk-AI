@@ -1,0 +1,121 @@
+{
+  "project": "AegisRisk AI",
+  "stage": "Day 4 - Leakage-Safe Temporal Feature Engineering",
+  "synthetic_data_notice": "The dataset is synthetic and must not be represented as real Razorpay production data.",
+  "input_rows": 300000,
+  "output_rows": 300000,
+  "feature_count": 27,
+  "feature_columns": [
+    "timestamp",
+    "amount",
+    "payment_method",
+    "account_age_days",
+    "failed_attempts",
+    "amount_log",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "customer_txn_count_before",
+    "customer_amount_mean_before",
+    "customer_amount_std_before",
+    "amount_vs_customer_mean",
+    "customer_amount_zscore",
+    "customer_seconds_since_prev",
+    "customer_has_history",
+    "customer_txn_count_10m",
+    "customer_txn_count_1h",
+    "customer_txn_count_24h",
+    "merchant_txn_count_before",
+    "merchant_amount_mean_before",
+    "merchant_seconds_since_prev",
+    "merchant_txn_count_1h",
+    "customer_device_seen_before",
+    "device_seen_before"
+  ],
+  "excluded_columns": [
+    "customer_id",
+    "device_id",
+    "fraud_label",
+    "is_new_device",
+    "merchant_id",
+    "scenario_id",
+    "transaction_id"
+  ],
+  "target_column": "fraud_label",
+  "temporal_features": [
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos"
+  ],
+  "customer_features": [
+    "customer_txn_count_before",
+    "customer_amount_mean_before",
+    "customer_amount_std_before",
+    "amount_vs_customer_mean",
+    "customer_amount_zscore",
+    "customer_seconds_since_prev",
+    "customer_has_history"
+  ],
+  "velocity_features": [
+    "customer_txn_count_10m",
+    "customer_txn_count_1h",
+    "customer_txn_count_24h"
+  ],
+  "merchant_features": [
+    "merchant_txn_count_before",
+    "merchant_amount_mean_before",
+    "merchant_seconds_since_prev",
+    "merchant_txn_count_1h"
+  ],
+  "device_features": [
+    "customer_device_seen_before",
+    "device_seen_before"
+  ],
+  "quality_checks": {
+    "input_rows": 300000,
+    "output_rows": 300000,
+    "row_count_unchanged": true,
+    "timestamp_unchanged": true,
+    "transaction_ids_unchanged": true,
+    "transaction_ids_unique": true,
+    "missing_values": {},
+    "infinite_values": {}
+  },
+  "leakage_audit": {
+    "target": [
+      "fraud_label"
+    ],
+    "simulation_metadata": [
+      "scenario_id"
+    ],
+    "simulator_shortcut": [
+      "is_new_device"
+    ],
+    "excluded_identifiers": [
+      "transaction_id",
+      "customer_id",
+      "merchant_id",
+      "device_id"
+    ],
+    "future_information_rule": "Historical features use only information from strictly earlier timestamps.",
+    "forbidden_columns_found": [],
+    "passed": true
+  },
+  "tests_executed": false,
+  "test_results": null,
+  "warnings": [],
+  "limitations": [
+    "Historical features depend on the available transaction history.",
+    "First-ever events have no prior behavioral history.",
+    "Payment method remains categorical and may require encoding during Day 5.",
+    "Historical features are computed from the synthetic transaction stream.",
+    "No fraud-label-derived historical features are created.",
+    "No ML model is trained during Day 4."
+  ],
+  "model_training_performed": false,
+  "day4_verdict": "PASS"
+}

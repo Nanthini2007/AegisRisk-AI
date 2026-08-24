@@ -1,0 +1,168 @@
+{
+  "project": "AegisRisk AI",
+  "stage": "Day 5 - Step 8 Full Model Evaluation",
+  "dataset": {
+    "path": "data\\processed\\transactions_features.csv",
+    "rows": 300000,
+    "validation_rows": 60000
+  },
+  "chronological_split": {
+    "method": "80/20 chronological",
+    "random_split_used": false,
+    "shuffle_used": false,
+    "train_end": "2026-01-24 23:32:02",
+    "validation_start": "2026-01-24 23:32:06",
+    "temporal_overlap": false
+  },
+  "validation_target_distribution": {
+    "legitimate": 58121,
+    "fraud": 1879
+  },
+  "feature_count": 26,
+  "feature_columns": [
+    "amount",
+    "payment_method",
+    "account_age_days",
+    "failed_attempts",
+    "amount_log",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "customer_txn_count_before",
+    "customer_amount_mean_before",
+    "customer_amount_std_before",
+    "amount_vs_customer_mean",
+    "customer_amount_zscore",
+    "customer_seconds_since_prev",
+    "customer_has_history",
+    "customer_txn_count_10m",
+    "customer_txn_count_1h",
+    "customer_txn_count_24h",
+    "merchant_txn_count_before",
+    "merchant_amount_mean_before",
+    "merchant_seconds_since_prev",
+    "merchant_txn_count_1h",
+    "customer_device_seen_before",
+    "device_seen_before"
+  ],
+  "forbidden_columns": [
+    "customer_id",
+    "device_id",
+    "fraud_label",
+    "is_new_device",
+    "merchant_id",
+    "scenario_id",
+    "timestamp",
+    "transaction_id"
+  ],
+  "evaluation": {
+    "threshold": 0.5,
+    "threshold_tuning_performed": false,
+    "metrics": {
+      "logistic_regression": {
+        "precision": 0.06328215141563859,
+        "recall": 0.37945715806279934,
+        "f1": 0.10847406055073787,
+        "pr_auc": 0.1501661277574582,
+        "threshold": 0.5,
+        "confusion_matrix": [
+          [
+            47567,
+            10554
+          ],
+          [
+            1166,
+            713
+          ]
+        ],
+        "true_negatives": 47567,
+        "false_positives": 10554,
+        "false_negatives": 1166,
+        "true_positives": 713,
+        "validation_predictions": 11267
+      },
+      "random_forest": {
+        "precision": 0.5869565217391305,
+        "recall": 0.05747738158594997,
+        "f1": 0.1047018904507998,
+        "pr_auc": 0.14069516811523422,
+        "threshold": 0.5,
+        "confusion_matrix": [
+          [
+            58045,
+            76
+          ],
+          [
+            1771,
+            108
+          ]
+        ],
+        "true_negatives": 58045,
+        "false_positives": 76,
+        "false_negatives": 1771,
+        "true_positives": 108,
+        "validation_predictions": 184
+      },
+      "xgboost": {
+        "precision": 0.2027348394768133,
+        "recall": 0.18147951037786056,
+        "f1": 0.19151923616961528,
+        "pr_auc": 0.13914704045228232,
+        "threshold": 0.5,
+        "confusion_matrix": [
+          [
+            56780,
+            1341
+          ],
+          [
+            1538,
+            341
+          ]
+        ],
+        "true_negatives": 56780,
+        "false_positives": 1341,
+        "false_negatives": 1538,
+        "true_positives": 341,
+        "validation_predictions": 1682
+      }
+    },
+    "comparison": [
+      {
+        "model": "logistic_regression",
+        "precision": 0.06328215141563859,
+        "recall": 0.37945715806279934,
+        "f1": 0.10847406055073787,
+        "pr_auc": 0.1501661277574582
+      },
+      {
+        "model": "random_forest",
+        "precision": 0.5869565217391305,
+        "recall": 0.05747738158594997,
+        "f1": 0.1047018904507998,
+        "pr_auc": 0.14069516811523422
+      },
+      {
+        "model": "xgboost",
+        "precision": 0.2027348394768133,
+        "recall": 0.18147951037786056,
+        "f1": 0.19151923616961528,
+        "pr_auc": 0.13914704045228232
+      }
+    ]
+  },
+  "selected_model_by_pr_auc": "logistic_regression",
+  "methodology": {
+    "smote_used": false,
+    "validation_used_for_training": false,
+    "probabilities_used_for_pr_auc": true
+  },
+  "warnings": [
+    "Validation performance is not production performance.",
+    "Threshold optimization is deferred to Day 6.",
+    "False-positive financial cost is not yet incorporated into the threshold.",
+    "Dataset is synthetic transaction data."
+  ],
+  "synthetic_data_notice": "This project uses synthetic transaction data for experimentation and does not use or claim access to Razorpay production transaction data."
+}

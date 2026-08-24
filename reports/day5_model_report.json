@@ -1,0 +1,265 @@
+{
+  "project": "AegisRisk AI",
+  "stage": "Day 5 - Chronological ML Training and Evaluation",
+  "synthetic_data_notice": "This project uses synthetic transaction data for experimentation and does not use or claim access to Razorpay production transaction data.",
+  "dataset_rows": 300000,
+  "train_rows": 240000,
+  "validation_rows": 60000,
+  "train_start": "2026-01-01 06:00:14",
+  "train_end": "2026-01-24 23:32:02",
+  "validation_start": "2026-01-24 23:32:06",
+  "validation_end": "2026-01-30 23:59:44",
+  "feature_count": 26,
+  "feature_columns": [
+    "amount",
+    "payment_method",
+    "account_age_days",
+    "failed_attempts",
+    "amount_log",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "customer_txn_count_before",
+    "customer_amount_mean_before",
+    "customer_amount_std_before",
+    "amount_vs_customer_mean",
+    "customer_amount_zscore",
+    "customer_seconds_since_prev",
+    "customer_has_history",
+    "customer_txn_count_10m",
+    "customer_txn_count_1h",
+    "customer_txn_count_24h",
+    "merchant_txn_count_before",
+    "merchant_amount_mean_before",
+    "merchant_seconds_since_prev",
+    "merchant_txn_count_1h",
+    "customer_device_seen_before",
+    "device_seen_before"
+  ],
+  "forbidden_columns": [
+    "customer_id",
+    "device_id",
+    "fraud_label",
+    "is_new_device",
+    "merchant_id",
+    "scenario_id",
+    "timestamp",
+    "transaction_id"
+  ],
+  "training_fraud_count": 7446,
+  "training_legitimate_count": 232554,
+  "class_imbalance_ratio": 31.232070910556004,
+  "training_fraud_rate": 0.031025,
+  "scale_pos_weight": 31.232070910556004,
+  "models": {
+    "logistic_regression": {
+      "precision": 0.06328215141563859,
+      "recall": 0.37945715806279934,
+      "f1": 0.10847406055073787,
+      "pr_auc": 0.1501661277574582,
+      "threshold": 0.5,
+      "confusion_matrix": [
+        [
+          47567,
+          10554
+        ],
+        [
+          1166,
+          713
+        ]
+      ],
+      "true_negatives": 47567,
+      "false_positives": 10554,
+      "false_negatives": 1166,
+      "true_positives": 713,
+      "validation_predictions": 11267
+    },
+    "random_forest": {
+      "precision": 0.5869565217391305,
+      "recall": 0.05747738158594997,
+      "f1": 0.1047018904507998,
+      "pr_auc": 0.14069516811523422,
+      "threshold": 0.5,
+      "confusion_matrix": [
+        [
+          58045,
+          76
+        ],
+        [
+          1771,
+          108
+        ]
+      ],
+      "true_negatives": 58045,
+      "false_positives": 76,
+      "false_negatives": 1771,
+      "true_positives": 108,
+      "validation_predictions": 184
+    },
+    "xgboost": {
+      "precision": 0.2027348394768133,
+      "recall": 0.18147951037786056,
+      "f1": 0.19151923616961528,
+      "pr_auc": 0.13914704045228232,
+      "threshold": 0.5,
+      "confusion_matrix": [
+        [
+          56780,
+          1341
+        ],
+        [
+          1538,
+          341
+        ]
+      ],
+      "true_negatives": 56780,
+      "false_positives": 1341,
+      "false_negatives": 1538,
+      "true_positives": 341,
+      "validation_predictions": 1682
+    }
+  },
+  "models_trained": [
+    "logistic_regression",
+    "random_forest",
+    "xgboost"
+  ],
+  "selected_model_by_pr_auc": "logistic_regression",
+  "default_threshold": 0.5,
+  "threshold_tuning_performed": false,
+  "random_split_used": false,
+  "shuffle_used": false,
+  "smote_used": false,
+  "validation_used_for_training": false,
+  "probabilities_used_for_pr_auc": true,
+  "chronological_split": true,
+  "temporal_overlap": false,
+  "leakage_audit": {
+    "project": "AegisRisk AI",
+    "stage": "Day 5 - Leakage Audit",
+    "dataset": "data\\processed\\transactions_features.csv",
+    "dataset_rows": 300000,
+    "train_rows": 240000,
+    "validation_rows": 60000,
+    "train_start": "2026-01-01 06:00:14",
+    "train_end": "2026-01-24 23:32:02",
+    "validation_start": "2026-01-24 23:32:06",
+    "validation_end": "2026-01-30 23:59:44",
+    "feature_count": 26,
+    "feature_columns": [
+      "amount",
+      "payment_method",
+      "account_age_days",
+      "failed_attempts",
+      "amount_log",
+      "hour",
+      "day_of_week",
+      "is_weekend",
+      "hour_sin",
+      "hour_cos",
+      "customer_txn_count_before",
+      "customer_amount_mean_before",
+      "customer_amount_std_before",
+      "amount_vs_customer_mean",
+      "customer_amount_zscore",
+      "customer_seconds_since_prev",
+      "customer_has_history",
+      "customer_txn_count_10m",
+      "customer_txn_count_1h",
+      "customer_txn_count_24h",
+      "merchant_txn_count_before",
+      "merchant_amount_mean_before",
+      "merchant_seconds_since_prev",
+      "merchant_txn_count_1h",
+      "customer_device_seen_before",
+      "device_seen_before"
+    ],
+    "chronological_order": true,
+    "time_separation": true,
+    "target_check": {
+      "exists": true,
+      "both_classes": true,
+      "unique_values": [
+        0,
+        1
+      ]
+    },
+    "training_class_check": {
+      "legitimate_count": 232554,
+      "fraud_count": 7446,
+      "both_classes": true
+    },
+    "transaction_id_check": {
+      "unique": true,
+      "duplicate_count": 0,
+      "total_transactions": 300000
+    },
+    "forbidden_feature_check": {
+      "passed": true,
+      "leaked_columns": []
+    },
+    "specific_feature_checks": {
+      "fraud_label_excluded": true,
+      "scenario_id_excluded": true,
+      "is_new_device_excluded": true,
+      "transaction_id_excluded": true,
+      "customer_id_excluded": true,
+      "merchant_id_excluded": true,
+      "device_id_excluded": true,
+      "timestamp_excluded": true
+    },
+    "methodology_checks": {
+      "random_split_used": false,
+      "shuffling_used": false,
+      "smote_used": false,
+      "threshold_tuning_performed": false,
+      "validation_used_for_training": false,
+      "scale_pos_weight_from_training_only": true,
+      "preprocessing_fit_on_training_only": true
+    },
+    "smote_used": false,
+    "random_split_used": false,
+    "shuffling_used": false,
+    "threshold_tuning_performed": false,
+    "overall_pass": true,
+    "synthetic_data_notice": "This project uses synthetic transaction data for experimentation and does not use or claim access to Razorpay production transaction data."
+  },
+  "leakage_checks": {
+    "chronological_split": true,
+    "random_split_used": false,
+    "shuffle_used": false,
+    "fraud_label_excluded": true,
+    "scenario_id_excluded": true,
+    "is_new_device_excluded": true,
+    "transaction_id_excluded": true,
+    "customer_id_excluded": true,
+    "merchant_id_excluded": true,
+    "device_id_excluded": true,
+    "timestamp_excluded": true,
+    "temporal_overlap": false,
+    "scale_pos_weight_training_only": true,
+    "validation_used_for_training": false
+  },
+  "warnings": [
+    "Validation performance is not production performance.",
+    "Threshold optimization is deferred to Day 6.",
+    "False-positive financial cost is not yet incorporated into the threshold.",
+    "Dataset is synthetic transaction data.",
+    "Performance should be investigated for simulator shortcuts or leakage if unexpectedly high."
+  ],
+  "limitations": [
+    "The dataset is synthetic and does not represent Razorpay production traffic.",
+    "The validation period is a controlled simulation rather than a live production period.",
+    "Threshold remains fixed at 0.50 for baseline model comparison.",
+    "False-positive financial cost is not yet used for threshold selection.",
+    "Human investigation capacity is not yet incorporated into model selection."
+  ],
+  "day5_verdict": "PASS - Chronological baseline models were trained and evaluated using a held-out validation period. Model selection is based primarily on PR-AUC, while precision, recall, F1 and confusion matrices are retained for trade-off analysis. Cost-aware threshold optimization is intentionally deferred to Day 6.",
+  "source_reports": {
+    "evaluation": "reports\\day5_evaluation_report.json",
+    "leakage_audit": "reports\\day5_leakage_audit.json"
+  },
+  "model_training_completed": true
+}

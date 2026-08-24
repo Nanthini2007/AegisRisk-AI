@@ -1,0 +1,21 @@
+AegisRisk AI — Day 5 Completion Checklist
+
+[PASS] Dataset loaded and validated
+[PASS] Chronological ordering
+[PASS] 80/20 chronological split
+[PASS] Leakage-safe feature selection
+[PASS] Logistic Regression trained
+[PASS] Random Forest trained
+[PASS] XGBoost trained
+[PASS] Training-only class weighting
+[PASS] Precision calculated
+[PASS] Recall calculated
+[PASS] F1 calculated
+[PASS] PR-AUC calculated
+[PASS] Confusion matrices generated
+[PASS] Leakage audit completed
+[PASS] Evaluation report generated
+[PASS] Model artifacts saved
+[PASS] Automated tests: 47 passed
+
+Day 5 status: COMPLETE

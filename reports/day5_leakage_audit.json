@@ -1,0 +1,90 @@
+{
+  "project": "AegisRisk AI",
+  "stage": "Day 5 - Leakage Audit",
+  "dataset": "data\\processed\\transactions_features.csv",
+  "dataset_rows": 300000,
+  "train_rows": 240000,
+  "validation_rows": 60000,
+  "train_start": "2026-01-01 06:00:14",
+  "train_end": "2026-01-24 23:32:02",
+  "validation_start": "2026-01-24 23:32:06",
+  "validation_end": "2026-01-30 23:59:44",
+  "feature_count": 26,
+  "feature_columns": [
+    "amount",
+    "payment_method",
+    "account_age_days",
+    "failed_attempts",
+    "amount_log",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "hour_sin",
+    "hour_cos",
+    "customer_txn_count_before",
+    "customer_amount_mean_before",
+    "customer_amount_std_before",
+    "amount_vs_customer_mean",
+    "customer_amount_zscore",
+    "customer_seconds_since_prev",
+    "customer_has_history",
+    "customer_txn_count_10m",
+    "customer_txn_count_1h",
+    "customer_txn_count_24h",
+    "merchant_txn_count_before",
+    "merchant_amount_mean_before",
+    "merchant_seconds_since_prev",
+    "merchant_txn_count_1h",
+    "customer_device_seen_before",
+    "device_seen_before"
+  ],
+  "chronological_order": true,
+  "time_separation": true,
+  "target_check": {
+    "exists": true,
+    "both_classes": true,
+    "unique_values": [
+      0,
+      1
+    ]
+  },
+  "training_class_check": {
+    "legitimate_count": 232554,
+    "fraud_count": 7446,
+    "both_classes": true
+  },
+  "transaction_id_check": {
+    "unique": true,
+    "duplicate_count": 0,
+    "total_transactions": 300000
+  },
+  "forbidden_feature_check": {
+    "passed": true,
+    "leaked_columns": []
+  },
+  "specific_feature_checks": {
+    "fraud_label_excluded": true,
+    "scenario_id_excluded": true,
+    "is_new_device_excluded": true,
+    "transaction_id_excluded": true,
+    "customer_id_excluded": true,
+    "merchant_id_excluded": true,
+    "device_id_excluded": true,
+    "timestamp_excluded": true
+  },
+  "methodology_checks": {
+    "random_split_used": false,
+    "shuffling_used": false,
+    "smote_used": false,
+    "threshold_tuning_performed": false,
+    "validation_used_for_training": false,
+    "scale_pos_weight_from_training_only": true,
+    "preprocessing_fit_on_training_only": true
+  },
+  "smote_used": false,
+  "random_split_used": false,
+  "shuffling_used": false,
+  "threshold_tuning_performed": false,
+  "overall_pass": true,
+  "synthetic_data_notice": "This project uses synthetic transaction data for experimentation and does not use or claim access to Razorpay production transaction data."
+}
