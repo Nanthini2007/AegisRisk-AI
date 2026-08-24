@@ -1,0 +1,106 @@
+# AegisRisk AI - Simulation Configuration
+#
+# Parameter labels:
+# - calibrated: supported by verified public evidence
+# - assumed: design assumption used when reliable evidence is unavailable
+# - derived: calculated from other configured parameters
+#
+# IMPORTANT:
+# Any parameter without a verified source must NOT be presented
+# as a real-world fraud statistic.
+
+simulation:
+  project_name: "AegisRisk AI"
+
+  seed:
+    value: 42
+    parameter_type: assumed
+    rationale: "Fixed seed selected for reproducible simulation."
+    source: null
+
+population:
+  merchants:
+    value: null
+    parameter_type: assumed
+    rationale: "Population size will be selected during simulator design."
+    source: "TODO: source required"
+
+  customers:
+    value: null
+    parameter_type: assumed
+    rationale: "Customer population size will be selected relative to the simulation design."
+    source: "TODO: source required"
+
+temporal_period:
+  start_date:
+    value: null
+    parameter_type: assumed
+    rationale: "To be defined before simulation generation."
+
+  end_date:
+    value: null
+    parameter_type: assumed
+    rationale: "To be defined before simulation generation."
+
+  duration_days:
+    value: null
+    parameter_type: derived
+    derivation: "end_date - start_date"
+
+transaction_behaviour:
+  transaction_volume:
+    value: null
+    parameter_type: assumed
+    rationale: "To be calibrated or explicitly justified before dataset generation."
+    source: "TODO: source required"
+
+  transaction_timing:
+    value: null
+    parameter_type: assumed
+    rationale: "Temporal transaction patterns will be defined before implementation."
+    source: "TODO: source required"
+
+  transaction_amount:
+    value: null
+    parameter_type: assumed
+    rationale: "Amount distribution will require explicit design justification."
+    source: "TODO: source required"
+
+fraud_behaviour:
+  fraud_prevalence:
+    value: null
+    parameter_type: assumed
+    rationale: "Must not be treated as a real-world statistic without verified evidence."
+    source: "TODO: source required"
+
+  fraud_scenarios:
+    value: []
+    parameter_type: assumed
+    rationale: "Specific transaction-fraud scenarios will be defined in a later phase."
+    source: "TODO: source required"
+
+scenario_configuration:
+  enabled_scenarios:
+    value: []
+    parameter_type: assumed
+
+  scenario_spikes:
+    value: []
+    parameter_type: assumed
+    rationale: "Temporal fraud spikes will be configured before simulation generation."
+
+reproducibility_metadata:
+  configuration_version: "0.1.0"
+  project_phase: "Day 1 Foundation"
+  dataset_generated: false
+
+  leakage_prevention:
+    rule: >
+      For a transaction at time T, predictive features must use only
+      information available at or before time T. Future transactions,
+      future labels, post-transaction outcomes, and future aggregates
+      must never be used to construct current-time prediction features.
+
+  synthetic_data_notice: >
+    The future transaction dataset will be synthetic and must never be
+    described as real Razorpay production data.
