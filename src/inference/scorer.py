@@ -26,7 +26,7 @@ from src.risk.explainability import FraudExplainer
 
 class MerchantRiskScorer:
     """
-    Production-ready risk scorer for merchant transactions.
+    Prototype risk scorer for merchant transactions.
 
     Combines:
     1. Frozen Day 6 Logistic Regression model

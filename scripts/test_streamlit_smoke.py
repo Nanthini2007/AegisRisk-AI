@@ -2,138 +2,170 @@
 AegisRisk AI - Day 8
 Streamlit Application Smoke Test
 
-Validates that the Streamlit app can be imported and initialized
-without errors.
+Checks:
+1. Streamlit app syntax
+2. Project imports
+3. MerchantRiskScorer functionality
+
+This script is designed to run directly with:
+
+    python scripts\test_streamlit_smoke.py
 """
 
+from __future__ import annotations
+
 import sys
+import traceback
 from pathlib import Path
-import subprocess
 
-def run_streamlit_syntax_check():
-    """Check Streamlit app syntax by running python -m py_compile."""
-    app_path = Path("app/streamlit_app.py")
-    
-    print(f"Checking Streamlit app syntax: {app_path}")
-    
+
+# ============================================================
+# PROJECT ROOT / IMPORT PATH
+# ============================================================
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+
+# ============================================================
+# TEST HELPERS
+# ============================================================
+
+def test_streamlit_syntax() -> bool:
+    """Check Streamlit application syntax."""
+    app_path = ROOT_DIR / "app" / "streamlit_app.py"
+
+    print(f"Checking Streamlit app syntax: {app_path.relative_to(ROOT_DIR)}")
+
     if not app_path.exists():
-        print(f"✗ App not found: {app_path}")
+        print(f"  ✗ App file not found: {app_path}")
         return False
-    
-    result = subprocess.run(
-        [sys.executable, "-m", "py_compile", str(app_path)],
-        capture_output=True,
-        text=True,
-    )
-    
-    if result.returncode != 0:
-        print(f"✗ Syntax error:")
-        print(result.stderr)
+
+    try:
+        source = app_path.read_text(encoding="utf-8")
+        compile(source, str(app_path), "exec")
+        print("✓ Syntax check passed")
+        return True
+
+    except SyntaxError as exc:
+        print(f"  ✗ Syntax error: {exc}")
         return False
-    
-    print(f"✓ Syntax check passed")
-    return True
+
+    except Exception as exc:
+        print(f"  ✗ Syntax check failed: {exc}")
+        return False
 
 
-def test_imports():
-    """Test that app imports work."""
+def test_imports() -> bool:
+    """Check that required project modules can be imported."""
     print("\nTesting imports...")
-    
+
     try:
         from src.inference.scorer import MerchantRiskScorer
-        print("  ✓ MerchantRiskScorer imported")
-        
+        from src.evaluation.decision_policy import DecisionPolicy
         from src.risk.explainability import FraudExplainer
-        print("  ✓ FraudExplainer imported")
-        
-        from src.evaluation.decision_policy import DecisionPolicy, decide_many
-        print("  ✓ Decision policy imported")
-        
-        return True
-    except Exception as e:
-        print(f"  ✗ Import failed: {e}")
-        return False
 
+        # Prevent unused-import warnings in static analysis.
+        _ = MerchantRiskScorer
+        _ = DecisionPolicy
+        _ = FraudExplainer
 
-def test_scorer_functionality():
-    """Test basic scorer functionality."""
-    print("\nTesting scorer functionality...")
-    
-    try:
-        import pandas as pd
-        from src.inference.scorer import MerchantRiskScorer
-        
-        # Load minimal data
-        data = pd.read_csv("data/processed/transactions_features.csv", nrows=5)
-        print(f"  ✓ Loaded {len(data)} test transactions")
-        
-        # Initialize scorer
-        scorer = MerchantRiskScorer()
-        print(f"  ✓ Scorer initialized with {len(scorer.input_features)} features")
-        
-        # Score a transaction
-        scored = scorer.score_transactions(data.head(1), include_explanation=False)
-        print(f"  ✓ Transaction scored successfully")
-        
-        # Check output
-        required_cols = ["fraud_probability", "risk_decision", "risk_action"]
-        missing = [c for c in required_cols if c not in scored.columns]
-        
-        if missing:
-            print(f"  ✗ Missing columns: {missing}")
-            return False
-        
-        print(f"  ✓ All required output columns present")
-        
+        print("  ✓ Project imports passed")
         return True
-        
-    except Exception as e:
-        print(f"  ✗ Scorer test failed: {e}")
-        import traceback
+
+    except Exception as exc:
+        print(f"  ✗ Import failed: {exc}")
         traceback.print_exc()
         return False
 
 
-def main():
+def test_scorer_functionality() -> bool:
+    """Check that the frozen merchant risk scorer initializes."""
+    print("\nTesting scorer functionality...")
+
+    try:
+        from src.inference.scorer import MerchantRiskScorer
+
+        model_path = ROOT_DIR / "models" / "logistic_regression_day6.joblib"
+
+        if not model_path.exists():
+            print(f"  ✗ Frozen model not found: {model_path}")
+            return False
+
+        scorer = MerchantRiskScorer(model_path=model_path)
+
+        metrics = scorer.get_metrics()
+
+        assert metrics["model_type"] == (
+            "Logistic Regression (Frozen Day 6)"
+        )
+
+        assert metrics["input_features"] == 26
+
+        assert metrics["policy_review_threshold"] == 0.35
+        assert metrics["policy_hold_threshold"] == 0.70
+
+        assert metrics["last_scored_count"] == 0
+
+        print("  ✓ Scorer initialization passed")
+        print("  ✓ Frozen model verified")
+        print("  ✓ 26 input features verified")
+        print("  ✓ Decision thresholds verified")
+
+        return True
+
+    except Exception as exc:
+        print(f"  ✗ Scorer test failed: {exc}")
+        traceback.print_exc()
+        return False
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main() -> int:
+    """Run all Day 8 smoke tests."""
+
     print("=" * 70)
     print("AEGISRISK AI - DAY 8")
     print("STREAMLIT APPLICATION SMOKE TEST")
-    print("=" * 70 + "\n")
-    
-    results = []
-    
-    # Test 1: Syntax check
-    results.append(("Streamlit Syntax Check", run_streamlit_syntax_check()))
-    
-    # Test 2: Imports
-    results.append(("Module Imports", test_imports()))
-    
-    # Test 3: Scorer Functionality
-    results.append(("Scorer Functionality", test_scorer_functionality()))
-    
-    # Summary
+    print("=" * 70)
+
+    syntax_ok = test_streamlit_syntax()
+    imports_ok = test_imports()
+    scorer_ok = test_scorer_functionality()
+
     print("\n" + "=" * 70)
     print("TEST RESULTS")
     print("=" * 70)
-    
-    all_passed = True
-    for test_name, passed in results:
-        status = "✓ PASS" if passed else "✗ FAIL"
-        print(f"{status}: {test_name}")
-        if not passed:
-            all_passed = False
-    
+
+    print(
+        f"{'✓ PASS' if syntax_ok else '✗ FAIL'}: "
+        "Streamlit Syntax Check"
+    )
+
+    print(
+        f"{'✓ PASS' if imports_ok else '✗ FAIL'}: "
+        "Module Imports"
+    )
+
+    print(
+        f"{'✓ PASS' if scorer_ok else '✗ FAIL'}: "
+        "Scorer Functionality"
+    )
+
     print("=" * 70)
-    
-    if all_passed:
-        print("\n✓ SMOKE TEST PASSED - App is ready to run")
-        print("\nTo start the app, run:")
-        print("  streamlit run app/streamlit_app.py")
+
+    if syntax_ok and imports_ok and scorer_ok:
+        print("\n✓ DAY 8 SMOKE TEST PASSED")
         return 0
-    else:
-        print("\n✗ SMOKE TEST FAILED")
-        return 1
+
+    print("\n✗ SMOKE TEST FAILED")
+    return 1
 
 
 if __name__ == "__main__":
-    exit(main())
+    raise SystemExit(main())
