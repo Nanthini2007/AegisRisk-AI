@@ -1,0 +1,21 @@
+{
+  "methodology": "chronological_70_15_15",
+  "total_rows": 300000,
+  "train": {
+    "rows": 210000,
+    "start": "2026-01-01 06:00:14",
+    "end": "2026-01-21 22:39:10"
+  },
+  "validation": {
+    "rows": 45000,
+    "start": "2026-01-21 22:39:18",
+    "end": "2026-01-26 15:22:00"
+  },
+  "held_out_test": {
+    "rows": 45000,
+    "start": "2026-01-26 15:22:14",
+    "end": "2026-01-30 23:59:44",
+    "used_for_threshold_selection": false
+  },
+  "temporal_separation_verified": true
+}

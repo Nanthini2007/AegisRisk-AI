@@ -1,0 +1,145 @@
+{
+  "stage": "day7_explainability_verification",
+  "report_type": "Explainability verification report, not a model performance report.",
+  "model": {
+    "path": "models\\logistic_regression_day6.joblib",
+    "model_type": "LogisticRegression",
+    "pipeline_type": "Pipeline",
+    "input_feature_count": 26,
+    "input_features": [
+      "amount",
+      "payment_method",
+      "account_age_days",
+      "failed_attempts",
+      "amount_log",
+      "hour",
+      "day_of_week",
+      "is_weekend",
+      "hour_sin",
+      "hour_cos",
+      "customer_txn_count_before",
+      "customer_amount_mean_before",
+      "customer_amount_std_before",
+      "amount_vs_customer_mean",
+      "customer_amount_zscore",
+      "customer_seconds_since_prev",
+      "customer_has_history",
+      "customer_txn_count_10m",
+      "customer_txn_count_1h",
+      "customer_txn_count_24h",
+      "merchant_txn_count_before",
+      "merchant_amount_mean_before",
+      "merchant_seconds_since_prev",
+      "merchant_txn_count_1h",
+      "customer_device_seen_before",
+      "device_seen_before"
+    ],
+    "transformed_feature_count": 29,
+    "transformed_feature_names": [
+      "numeric__amount",
+      "numeric__account_age_days",
+      "numeric__failed_attempts",
+      "numeric__amount_log",
+      "numeric__hour",
+      "numeric__day_of_week",
+      "numeric__is_weekend",
+      "numeric__hour_sin",
+      "numeric__hour_cos",
+      "numeric__customer_txn_count_before",
+      "numeric__customer_amount_mean_before",
+      "numeric__customer_amount_std_before",
+      "numeric__amount_vs_customer_mean",
+      "numeric__customer_amount_zscore",
+      "numeric__customer_seconds_since_prev",
+      "numeric__customer_has_history",
+      "numeric__customer_txn_count_10m",
+      "numeric__customer_txn_count_1h",
+      "numeric__customer_txn_count_24h",
+      "numeric__merchant_txn_count_before",
+      "numeric__merchant_amount_mean_before",
+      "numeric__merchant_seconds_since_prev",
+      "numeric__merchant_txn_count_1h",
+      "numeric__customer_device_seen_before",
+      "numeric__device_seen_before",
+      "categorical__payment_method_card",
+      "categorical__payment_method_netbanking",
+      "categorical__payment_method_upi",
+      "categorical__payment_method_wallet"
+    ]
+  },
+  "data": {
+    "path": "data\\processed\\transactions_features.csv",
+    "rows": 300000,
+    "columns": 34,
+    "synthetic": true
+  },
+  "shap": {
+    "available": true,
+    "version": "0.52.0",
+    "explainer_type": "LinearExplainer"
+  },
+  "verification": {
+    "feature_order_verified": true,
+    "transformed_feature_alignment_verified": true,
+    "local_explanation_generated": true,
+    "contribution_ranking_verified": true,
+    "all_transformed_features_explained": true,
+    "total_features_explained": 29,
+    "non_zero_contribution_count": 0,
+    "zero_contribution_count": 29
+  },
+  "sample_explanation": {
+    "transaction_id": "TXN_00107369",
+    "top_k": 5,
+    "feature_count_explained": 29,
+    "top_contributors": [
+      {
+        "internal_feature": "numeric__amount",
+        "display_name": "Transaction amount",
+        "contribution": 0.0,
+        "magnitude": 0.0,
+        "direction": "NEUTRAL",
+        "feature_value": 1223.68
+      },
+      {
+        "internal_feature": "numeric__account_age_days",
+        "display_name": "Account age",
+        "contribution": -0.0,
+        "magnitude": 0.0,
+        "direction": "NEUTRAL",
+        "feature_value": 26
+      },
+      {
+        "internal_feature": "numeric__failed_attempts",
+        "display_name": "Failed payment attempts",
+        "contribution": 0.0,
+        "magnitude": 0.0,
+        "direction": "NEUTRAL",
+        "feature_value": 0
+      },
+      {
+        "internal_feature": "numeric__amount_log",
+        "display_name": "Log-transformed transaction amount",
+        "contribution": -0.0,
+        "magnitude": 0.0,
+        "direction": "NEUTRAL",
+        "feature_value": 7.110434864363971
+      },
+      {
+        "internal_feature": "numeric__hour",
+        "display_name": "Transaction hour",
+        "contribution": 0.0,
+        "magnitude": 0.0,
+        "direction": "NEUTRAL",
+        "feature_value": 6
+      }
+    ]
+  },
+  "limitations": [
+    "Dataset is synthetic.",
+    "Explanations describe the frozen Logistic Regression model.",
+    "SHAP explanations do not establish production fraud-detection performance.",
+    "Results do not represent Razorpay production performance.",
+    "No production fraud or merchant data was used."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "model_name": "Logistic Regression",
+  "threshold": 0.7,
+  "cost_assumptions": {
+    "fraud_miss_cost_per_false_negative": 1000.0,
+    "false_positive_cost_per_false_positive": 50.0
+  },
+  "selection_data": "validation_only",
+  "test_set_used_for_selection": false
+}

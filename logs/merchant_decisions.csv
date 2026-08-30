@@ -1,0 +1,2 @@
+transaction_id,ai_recommendation,merchant_action,merchant_action_timestamp,risk_score,risk_level
+TXN_00107369,ALLOW,APPROVE,2026-08-30T15:01:57.716164,0.3476655345881287,LOW_RISK

@@ -1,0 +1,244 @@
+{
+  "timestamp": "2026-08-30T14:56:22.017609",
+  "stage": "day8_streamlit_application",
+  "title": "AegisRisk AI - Merchant Risk Command Center",
+  "model": {
+    "type": "Logistic Regression (Frozen Day 6)",
+    "path": "models\\logistic_regression_day6.joblib",
+    "input_features": 26,
+    "features": [
+      "amount",
+      "payment_method",
+      "account_age_days",
+      "failed_attempts",
+      "amount_log",
+      "hour",
+      "day_of_week",
+      "is_weekend",
+      "hour_sin",
+      "hour_cos",
+      "customer_txn_count_before",
+      "customer_amount_mean_before",
+      "customer_amount_std_before",
+      "amount_vs_customer_mean",
+      "customer_amount_zscore",
+      "customer_seconds_since_prev",
+      "customer_has_history",
+      "customer_txn_count_10m",
+      "customer_txn_count_1h",
+      "customer_txn_count_24h",
+      "merchant_txn_count_before",
+      "merchant_amount_mean_before",
+      "merchant_seconds_since_prev",
+      "merchant_txn_count_1h",
+      "customer_device_seen_before",
+      "device_seen_before"
+    ],
+    "transformed_features": 29
+  },
+  "policy": {
+    "review_threshold": 0.35,
+    "hold_threshold": 0.7,
+    "decision_levels": {
+      "low_risk": {
+        "range": "[0.00, 0.35)",
+        "action": "ALLOW"
+      },
+      "medium_risk": {
+        "range": "[0.35, 0.70)",
+        "action": "REVIEW"
+      },
+      "high_risk": {
+        "range": "[0.70, 1.00]",
+        "action": "HOLD_FOR_VERIFICATION"
+      }
+    }
+  },
+  "scoring_results": {
+    "total_transactions": 2000,
+    "fraud_probability": {
+      "min": 0.2898518641062642,
+      "max": 0.9999882403317664,
+      "mean": 0.4353540420725834,
+      "median": 0.4074728251348422,
+      "std": 0.09309366871832422
+    },
+    "risk_distribution": {
+      "low_risk": 105,
+      "medium_risk": 1854,
+      "high_risk": 41
+    },
+    "action_distribution": {
+      "allow": 105,
+      "review": 1854,
+      "hold_for_verification": 41
+    }
+  },
+  "quality_checks": {
+    "all_probabilities_valid": true,
+    "all_decisions_valid": true,
+    "all_actions_valid": true,
+    "threshold_alignment": true,
+    "explanations_generated": true,
+    "original_columns_preserved": true
+  },
+  "quality_status": "PASSED",
+  "sample_transactions": [
+    {
+      "risk_level": "LOW_RISK",
+      "transaction_id": "TXN_00107369",
+      "amount": 1223.68,
+      "payment_method": "upi",
+      "fraud_probability": 0.3476655345881287,
+      "risk_decision": "LOW_RISK",
+      "risk_action": "ALLOW",
+      "explanation_summary": "Fraud Risk: 34.8% (LOW_RISK) | Top risk factor: Whether the customer has transaction history"
+    },
+    {
+      "risk_level": "MEDIUM_RISK",
+      "transaction_id": "TXN_00068508",
+      "amount": 3678.18,
+      "payment_method": "netbanking",
+      "fraud_probability": 0.528314752964837,
+      "risk_decision": "MEDIUM_RISK",
+      "risk_action": "REVIEW",
+      "explanation_summary": "Fraud Risk: 52.8% (MEDIUM_RISK) | Top risk factor: Failed payment attempts"
+    },
+    {
+      "risk_level": "HIGH_RISK",
+      "transaction_id": "TXN_00010126",
+      "amount": 6794.34,
+      "payment_method": "card",
+      "fraud_probability": 0.7274217985230496,
+      "risk_decision": "HIGH_RISK",
+      "risk_action": "HOLD_FOR_VERIFICATION",
+      "explanation_summary": "Fraud Risk: 72.7% (HIGH_RISK) | Top risk factor: Amount compared with the customer's historical average"
+    }
+  ],
+  "features": {
+    "model_input_features": 26,
+    "transformed_features": 29,
+    "input_feature_list": [
+      "amount",
+      "payment_method",
+      "account_age_days",
+      "failed_attempts",
+      "amount_log",
+      "hour",
+      "day_of_week",
+      "is_weekend",
+      "hour_sin",
+      "hour_cos",
+      "customer_txn_count_before",
+      "customer_amount_mean_before",
+      "customer_amount_std_before",
+      "amount_vs_customer_mean",
+      "customer_amount_zscore",
+      "customer_seconds_since_prev",
+      "customer_has_history",
+      "customer_txn_count_10m",
+      "customer_txn_count_1h",
+      "customer_txn_count_24h",
+      "merchant_txn_count_before",
+      "merchant_amount_mean_before",
+      "merchant_seconds_since_prev",
+      "merchant_txn_count_1h",
+      "customer_device_seen_before",
+      "device_seen_before"
+    ],
+    "transformed_feature_list": [
+      "numeric__amount",
+      "numeric__account_age_days",
+      "numeric__failed_attempts",
+      "numeric__amount_log",
+      "numeric__hour",
+      "numeric__day_of_week",
+      "numeric__is_weekend",
+      "numeric__hour_sin",
+      "numeric__hour_cos",
+      "numeric__customer_txn_count_before",
+      "numeric__customer_amount_mean_before",
+      "numeric__customer_amount_std_before",
+      "numeric__amount_vs_customer_mean",
+      "numeric__customer_amount_zscore",
+      "numeric__customer_seconds_since_prev",
+      "numeric__customer_has_history",
+      "numeric__customer_txn_count_10m",
+      "numeric__customer_txn_count_1h",
+      "numeric__customer_txn_count_24h",
+      "numeric__merchant_txn_count_before",
+      "numeric__merchant_amount_mean_before",
+      "numeric__merchant_seconds_since_prev",
+      "numeric__merchant_txn_count_1h",
+      "numeric__customer_device_seen_before",
+      "numeric__device_seen_before",
+      "categorical__payment_method_card",
+      "categorical__payment_method_netbanking",
+      "categorical__payment_method_upi",
+      "categorical__payment_method_wallet"
+    ]
+  },
+  "application": {
+    "name": "AegisRisk AI - Merchant Risk Command Center",
+    "framework": "Streamlit",
+    "version": "1.0.0",
+    "pages": [
+      "Overview",
+      "Risk Queue",
+      "Investigation",
+      "Decisions Log",
+      "System Status"
+    ],
+    "features": [
+      "Real-time transaction scoring",
+      "SHAP-based explainability",
+      "Three-level risk decisions",
+      "Human-in-the-loop decision logging",
+      "Interactive investigation dashboard",
+      "Cost-aware fraud assessment"
+    ],
+    "cached_resources": [
+      "MerchantRiskScorer (model + explainer)",
+      "Processed dataset"
+    ],
+    "model_endpoint": "Frozen Day 6 Logistic Regression",
+    "explanation_method": "Day 7 SHAP LinearExplainer"
+  },
+  "frozen_constraints": {
+    "model_frozen": true,
+    "model_artifact": "models/logistic_regression_day6.joblib",
+    "preprocessing_frozen": true,
+    "feature_schema_frozen": true,
+    "feature_count": 26,
+    "threshold_frozen": true,
+    "threshold_value": 0.7,
+    "policy_frozen": true,
+    "decision_policy": "Three-level (ALLOW/REVIEW/HOLD)",
+    "explanation_methodology_frozen": true,
+    "explanation_method": "SHAP LinearExplainer (Day 7)"
+  },
+  "test_results": {
+    "total_tests": 21,
+    "passed": 21,
+    "failed": 0,
+    "test_categories": [
+      "Scorer Initialization (4 tests)",
+      "Scoring Pipeline (4 tests)",
+      "Output Validation (5 tests)",
+      "Explanations (3 tests)",
+      "Metadata (2 tests)",
+      "Frozen Components (3 tests)"
+    ]
+  },
+  "verdict": {
+    "status": "PASS",
+    "ready_for_deployment": true,
+    "issues": [],
+    "recommendations": [
+      "Monitor fraud probability distribution in production",
+      "Log human decisions for model refinement (future)",
+      "Implement rate limiting on scoring endpoint",
+      "Add authentication for decision logging"
+    ]
+  }
+}
