@@ -3,6 +3,8 @@ AegisRisk AI - Day 9
 Tests for Fraud-Risk Monitoring & Model Health.
 """
 
+import warnings
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -185,9 +187,19 @@ def test_invalid_probability_value_is_alert(
     data = valid_scored_data.copy()
     data.loc[0, "fraud_probability"] = probability
 
-    result = monitor.monitor(data)
+    # inf/-inf are intentionally invalid test inputs.
+    # NumPy/Pandas may emit RuntimeWarnings while calculating
+    # descriptive statistics. The warning is expected and does
+    # not indicate a failure of RiskMonitor.
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        result = monitor.monitor(data)
 
     assert result["overall_status"] == "ALERT"
+    assert (
+        result["data_quality_checks"]["probabilities"]["status"]
+        == "ALERT"
+    )
 
 
 @pytest.mark.parametrize(
