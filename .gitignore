@@ -24,3 +24,4 @@ Thumbs.db
 
 # Environment variables / secrets
 .env
+models/random_forest.joblib
