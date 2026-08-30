@@ -1,0 +1,264 @@
+{
+  "timestamp": "2026-08-30T21:31:15.648714",
+  "stage": "day10_integration_test",
+  "title": "AegisRisk AI - Day 10 Integration Test (10 Deterministic Rows)",
+  "test_data": {
+    "rows_tested": 10,
+    "features_per_row": 34,
+    "data_source": "data/processed/transactions_features.csv"
+  },
+  "requirements": [
+    {
+      "requirement": 1,
+      "description": "Frozen Day 6 Logistic Regression loads",
+      "model_path": "models\\logistic_regression_day6.joblib",
+      "model_exists": true,
+      "pipeline_loaded": true,
+      "model_loaded": true,
+      "preprocessor_loaded": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 2,
+      "description": "Exactly 26 model input features in frozen order",
+      "expected_count": 26,
+      "actual_count": 26,
+      "features": [
+        "amount",
+        "payment_method",
+        "account_age_days",
+        "failed_attempts",
+        "amount_log",
+        "hour",
+        "day_of_week",
+        "is_weekend",
+        "hour_sin",
+        "hour_cos",
+        "customer_txn_count_before",
+        "customer_amount_mean_before",
+        "customer_amount_std_before",
+        "amount_vs_customer_mean",
+        "customer_amount_zscore",
+        "customer_seconds_since_prev",
+        "customer_has_history",
+        "customer_txn_count_10m",
+        "customer_txn_count_1h",
+        "customer_txn_count_24h",
+        "merchant_txn_count_before",
+        "merchant_amount_mean_before",
+        "merchant_seconds_since_prev",
+        "merchant_txn_count_1h",
+        "customer_device_seen_before",
+        "device_seen_before"
+      ],
+      "count_matches": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 3,
+      "description": "Fraud probabilities finite and in [0,1]",
+      "total_probabilities": 10,
+      "valid_probabilities": 10,
+      "min_probability": 0.3392820399844857,
+      "max_probability": 0.528314752964837,
+      "all_finite": true,
+      "all_in_range": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 4,
+      "description": "Risk decisions use thresholds 0.35 and 0.70",
+      "expected_review_threshold": 0.35,
+      "actual_review_threshold": 0.35,
+      "review_threshold_matches": true,
+      "expected_hold_threshold": 0.7,
+      "actual_hold_threshold": 0.7,
+      "hold_threshold_matches": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 5,
+      "description": "Actions match existing DecisionPolicy",
+      "total_actions": 10,
+      "action_distribution": {
+        "review": 6,
+        "hold_for_verification": 0,
+        "allow": 4
+      },
+      "all_valid": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 6,
+      "description": "SHAP explanations generated with top contributors",
+      "explanations_generated": 10,
+      "probabilities_scored": 10,
+      "counts_match": true,
+      "explanations_with_contributors": 10,
+      "all_have_contributors": true,
+      "status": "PASS"
+    },
+    {
+      "requirement": 7,
+      "description": "RiskMonitor returns PASS",
+      "overall_status": "PASS",
+      "transaction_count": 10,
+      "data_quality_status": null,
+      "status": "PASS"
+    },
+    {
+      "requirement": 8,
+      "description": "Frozen model verification returns PASS",
+      "model_path": "models\\logistic_regression_day6.joblib",
+      "exists": true,
+      "loads": true,
+      "input_feature_count": 26,
+      "expected_feature_count": 26,
+      "feature_count_check": "PASS",
+      "verification_status": "PASS",
+      "status": "PASS"
+    },
+    {
+      "requirement": 9,
+      "description": "Frozen policy verification returns PASS",
+      "expected_review_threshold": 0.35,
+      "actual_review_threshold": 0.35,
+      "review_threshold_check": "PASS",
+      "expected_hold_threshold": 0.7,
+      "actual_hold_threshold": 0.7,
+      "hold_threshold_check": "PASS",
+      "policy_status": "PASS",
+      "status": "PASS"
+    }
+  ],
+  "model": {
+    "type": "Logistic Regression (Frozen Day 6)",
+    "path": "models/logistic_regression_day6.joblib",
+    "input_features": 26
+  },
+  "policy": {
+    "review_threshold": 0.35,
+    "hold_threshold": 0.7
+  },
+  "scoring_summary": {
+    "total_transactions": 10,
+    "fraud_probability": {
+      "min": 0.3392820399844857,
+      "max": 0.528314752964837,
+      "mean": 0.38638755338525355,
+      "median": 0.37281698530236307,
+      "std": 0.05361240090145701
+    },
+    "risk_distribution": {
+      "review": 6,
+      "hold_for_verification": 0,
+      "allow": 4
+    }
+  },
+  "monitor_results": {
+    "transaction_count": 10,
+    "probability_statistics": {
+      "status": "PASS",
+      "count": 10,
+      "minimum": 0.3392820399844857,
+      "maximum": 0.528314752964837,
+      "mean": 0.38638755338525355,
+      "median": 0.37281698530236307,
+      "standard_deviation": 0.05361240090145701,
+      "percentiles": {
+        "p01": 0.33963829852226196,
+        "p05": 0.34106333267336697,
+        "p25": 0.3482484383427572,
+        "p50": 0.37281698530236307,
+        "p75": 0.3949790549427041,
+        "p95": 0.479720556093455,
+        "p99": 0.5185959135905607
+      }
+    },
+    "risk_distribution": {
+      "LOW_RISK": {
+        "count": 4,
+        "percentage": 40.0
+      },
+      "MEDIUM_RISK": {
+        "count": 6,
+        "percentage": 60.0
+      },
+      "HIGH_RISK": {
+        "count": 0,
+        "percentage": 0.0
+      }
+    },
+    "action_distribution": {
+      "ALLOW": {
+        "count": 4,
+        "percentage": 40.0
+      },
+      "REVIEW": {
+        "count": 6,
+        "percentage": 60.0
+      },
+      "HOLD_FOR_VERIFICATION": {
+        "count": 0,
+        "percentage": 0.0
+      }
+    },
+    "policy_verification": {
+      "review_threshold": 0.35,
+      "hold_threshold": 0.7,
+      "policy_consistency": {
+        "status": "PASS",
+        "inconsistent_count": 0,
+        "checked_count": 10
+      }
+    },
+    "data_quality_checks": {
+      "required_columns": {
+        "status": "PASS",
+        "missing_columns": []
+      },
+      "probabilities": {
+        "status": "PASS",
+        "invalid_count": 0
+      },
+      "risk_levels": {
+        "status": "PASS",
+        "invalid_count": 0
+      },
+      "actions": {
+        "status": "PASS",
+        "invalid_count": 0
+      },
+      "policy_consistency": {
+        "status": "PASS",
+        "inconsistent_count": 0,
+        "checked_count": 10
+      }
+    },
+    "overall_status": "PASS"
+  },
+  "sample_transactions": [
+    {
+      "transaction_id": "TXN_00107369",
+      "amount": 1223.68,
+      "fraud_probability": 0.3476655345881287,
+      "risk_decision": "LOW_RISK",
+      "risk_action": "ALLOW"
+    },
+    {
+      "transaction_id": "TXN_00068508",
+      "amount": 3678.18,
+      "fraud_probability": 0.528314752964837,
+      "risk_decision": "MEDIUM_RISK",
+      "risk_action": "REVIEW"
+    },
+    {
+      "transaction_id": "TXN_00255426",
+      "amount": 211.19,
+      "fraud_probability": 0.42032764880621054,
+      "risk_decision": "MEDIUM_RISK",
+      "risk_action": "REVIEW"
+    }
+  ],
+  "overall_status": "PASS"
+}
