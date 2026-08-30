@@ -1,0 +1,121 @@
+{
+  "timestamp": "2026-08-30T14:00:55.782071+00:00",
+  "stage": "Day 9 - Fraud-Risk Monitoring & Model Health",
+  "monitoring_methodology": "Reusable integrity and descriptive monitoring of transactions scored by the existing frozen AegisRisk inference pipeline. No retraining, feature changes, threshold tuning, or held-out test-set tuning is performed.",
+  "source_data": {
+    "path": "data\\processed\\transactions_features.csv",
+    "source_row_count": 300000,
+    "source_column_count": 34,
+    "validation_selection": "First rows of the existing processed dataset",
+    "synthetic_transactions_created": false
+  },
+  "number_of_transactions_monitored": 2000,
+  "probability_statistics": {
+    "status": "PASS",
+    "count": 2000,
+    "minimum": 0.2898518641062642,
+    "maximum": 0.9999882403317664,
+    "mean": 0.4353540420725834,
+    "median": 0.4074728251348422,
+    "standard_deviation": 0.09307039239123997,
+    "percentiles": {
+      "p01": 0.32898911636141337,
+      "p05": 0.3491507826577624,
+      "p25": 0.38117991213443214,
+      "p50": 0.4074728251348422,
+      "p75": 0.4476406874297706,
+      "p95": 0.6315935887237567,
+      "p99": 0.8116163708931143
+    }
+  },
+  "risk_distribution": {
+    "LOW_RISK": {
+      "count": 105,
+      "percentage": 5.25
+    },
+    "MEDIUM_RISK": {
+      "count": 1854,
+      "percentage": 92.7
+    },
+    "HIGH_RISK": {
+      "count": 41,
+      "percentage": 2.0500000000000003
+    }
+  },
+  "action_distribution": {
+    "ALLOW": {
+      "count": 105,
+      "percentage": 5.25
+    },
+    "REVIEW": {
+      "count": 1854,
+      "percentage": 92.7
+    },
+    "HOLD_FOR_VERIFICATION": {
+      "count": 41,
+      "percentage": 2.0500000000000003
+    }
+  },
+  "policy_verification": {
+    "review_threshold": 0.35,
+    "hold_threshold": 0.7,
+    "policy_consistency": {
+      "status": "PASS",
+      "inconsistent_count": 0,
+      "checked_count": 2000
+    }
+  },
+  "data_quality_checks": {
+    "required_columns": {
+      "status": "PASS",
+      "missing_columns": []
+    },
+    "probabilities": {
+      "status": "PASS",
+      "invalid_count": 0
+    },
+    "risk_levels": {
+      "status": "PASS",
+      "invalid_count": 0
+    },
+    "actions": {
+      "status": "PASS",
+      "invalid_count": 0
+    },
+    "policy_consistency": {
+      "status": "PASS",
+      "inconsistent_count": 0,
+      "checked_count": 2000
+    }
+  },
+  "frozen_component_checks": {
+    "model": {
+      "model_path": "C:\\Users\\E.nanthini\\ai-risk-manager\\models\\logistic_regression_day6.joblib",
+      "exists": true,
+      "loads": true,
+      "input_feature_count": 26,
+      "expected_input_feature_count": 26,
+      "feature_count_check": "PASS",
+      "status": "PASS"
+    },
+    "policy": {
+      "expected_review_threshold": 0.35,
+      "actual_review_threshold": 0.35,
+      "review_threshold_check": "PASS",
+      "expected_hold_threshold": 0.7,
+      "actual_hold_threshold": 0.7,
+      "hold_threshold_check": "PASS",
+      "status": "PASS"
+    }
+  },
+  "warnings": [],
+  "alerts": [],
+  "overall_status": "PASS",
+  "limitations": [
+    "Monitoring was performed on a validation subset of the existing processed dataset.",
+    "Observed distributions are descriptive and are not treated as scientifically validated production limits.",
+    "No production Razorpay transaction data was used.",
+    "No production-readiness claim is made.",
+    "This monitoring run does not establish model drift or future production performance."
+  ]
+}
